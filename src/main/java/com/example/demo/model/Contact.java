@@ -2,11 +2,8 @@ package com.example.demo.model;
 
 
 import com.example.demo.model.util.Label;
-import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.ToString;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -34,4 +31,14 @@ public class Contact {
 
     @Enumerated(EnumType.STRING)
     private Label emailLabel;
+
+
+    public String stringify() {
+        return "" + name +
+                "" + surname +
+                "" + phone +
+                "" + phoneLabel +
+                "" + email +
+                "" + emailLabel;
+    }
 }
