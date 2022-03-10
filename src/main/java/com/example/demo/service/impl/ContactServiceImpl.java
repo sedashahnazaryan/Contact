@@ -3,6 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.model.Contact;
 import com.example.demo.repository.ContactRepository;
 import com.example.demo.service.ContactService;
+import com.example.demo.util.validator.Validation;
+import com.example.demo.util.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,23 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact create(Contact contact) {
-        return contactRepository.save(contact);
-    }
+        if (!Validator.checkEmail(contact.getEmail(), Validation.regexEmail)) {
+
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong");
+        } else if (!Validator.checkPhone(contact.getPhone(), Validation.regexPhone)) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong");
+        } else if(!Validator.checkLabel(contact.getPhoneLabel(),Validation.label)){
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong");
+
+        } else if(!Validator.checkLabel(contact.getEmailLabel(),Validation.label)) {
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong");
+        }else
+            return contactRepository.save(contact);
+        }
 
     @Override
     public List<Contact> getAll() {
